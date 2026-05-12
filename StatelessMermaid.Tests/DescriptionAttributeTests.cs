@@ -50,6 +50,24 @@ public class DescriptionAttributeTests
             .VerifyAsync();
     }
 
+    [Fact]
+    public async Task GivenNonEnumState_WhenGeneratingDiagram_ThenStateNameIsUsedDirectly()
+    {
+        // Arrange
+        var machine = new StateMachine<string, string>("A");
+        machine.Configure("A").Permit("Go", "B");
+        machine.Configure("B");
+
+        // Act
+        var act = () => machine.ToMermaid();
+
+        // Assert
+        await act.Should()
+            .NotThrow()
+            .Which.Should()
+            .VerifyAsync();
+    }
+
     private enum State
     {
         [Description("Powered On")] On,

@@ -125,4 +125,36 @@ public class DiagramOptionsTests
             .Which.Should()
             .VerifyAsync(settings => settings.UseParameters(version));
     }
+
+    [Fact]
+    public async Task GivenUnknownDirection_WhenGeneratingDiagram_ThenDefaultDirectionIsUsed()
+    {
+        // Arrange
+        var machine = new DiagramOptionsStateMachineFixture();
+
+        // Act
+        var act = () => machine.ToMermaid(new MermaidOptions { Direction = (DiagramDirection)99 });
+
+        // Assert
+        await act.Should()
+            .NotThrow()
+            .Which.Should()
+            .VerifyAsync();
+    }
+
+    [Fact]
+    public async Task GivenUnknownVersion_WhenGeneratingDiagram_ThenDefaultVersionIsUsed()
+    {
+        // Arrange
+        var machine = new DiagramOptionsStateMachineFixture();
+
+        // Act
+        var act = () => machine.ToMermaid(new MermaidOptions { Version = (DiagramVersion)99 });
+
+        // Assert
+        await act.Should()
+            .NotThrow()
+            .Which.Should()
+            .VerifyAsync();
+    }
 }

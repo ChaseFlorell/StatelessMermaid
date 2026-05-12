@@ -87,6 +87,53 @@ public class CompositeStateTests
             .VerifyAsync();
     }
 
+    [Fact]
+    public async Task GivenThreeLevelCompositeState_WhenGeneratingDiagram_ThenAllLevelsAreNested()
+    {
+        // Arrange: Root > Mid > Leaf hierarchy
+        var machine = new StateMachine<DeepState, Trigger>(DeepState.Leaf);
+        machine.Configure(DeepState.Root)
+            .Permit(Trigger.Disconnect, DeepState.Outside);
+        machine.Configure(DeepState.Mid)
+            .SubstateOf(DeepState.Root);
+        machine.Configure(DeepState.Leaf)
+            .SubstateOf(DeepState.Mid)
+            .Permit(Trigger.Finish, DeepState.Outside);
+        machine.Configure(DeepState.Outside);
+
+        // Act
+        var act = () => machine.ToMermaid();
+
+        // Assert
+        await act.Should()
+            .NotThrow()
+            .Which.Should()
+            .VerifyAsync();
+    }
+
+    [Fact]
+    public async Task GivenTransitionBetweenSubstatesOfDifferentParents_WhenGeneratingDiagram_ThenTransitionIsOutsideBothBlocks()
+    {
+        // Arrange: Two composite states each with a substate; sibling check returns false
+        var machine = new StateMachine<CrossState, Trigger>(CrossState.SubA);
+        machine.Configure(CrossState.GroupA);
+        machine.Configure(CrossState.SubA)
+            .SubstateOf(CrossState.GroupA)
+            .Permit(Trigger.Go, CrossState.SubB);
+        machine.Configure(CrossState.GroupB);
+        machine.Configure(CrossState.SubB)
+            .SubstateOf(CrossState.GroupB);
+
+        // Act
+        var act = () => machine.ToMermaid();
+
+        // Assert
+        await act.Should()
+            .NotThrow()
+            .Which.Should()
+            .VerifyAsync();
+    }
+
     private enum State
     {
         Offline,
@@ -95,11 +142,28 @@ public class CompositeStateTests
         Busy
     }
 
+    private enum DeepState
+    {
+        Root,
+        Mid,
+        Leaf,
+        Outside
+    }
+
+    private enum CrossState
+    {
+        GroupA,
+        SubA,
+        GroupB,
+        SubB
+    }
+
     private enum Trigger
     {
         Connect,
         Disconnect,
         Start,
-        Finish
+        Finish,
+        Go
     }
 }
