@@ -43,7 +43,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./TestResults/**/coverage.cobertura.xml
-          fail_ci_if_error: false
+          fail_ci_if_error: true
           flags: unittests
 
       - name: Publish test results as PR comment
