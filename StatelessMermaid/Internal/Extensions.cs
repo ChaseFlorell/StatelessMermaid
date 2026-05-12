@@ -13,6 +13,9 @@ internal static partial class Extensions
     internal static string ToMermaidId(this string value) =>
         string.IsNullOrEmpty(value) ? "_" : InvalidIdCharRegex().Replace(value, "_");
 
+    internal static string ToHumanReadable(this string identifier) =>
+        WordBoundaryRegex().Replace(identifier, " ");
+
     internal static string ToMermaidSyntax(this DiagramDirection direction) => direction switch
     {
         DiagramDirection.TopToBottom => "TB",
@@ -117,4 +120,7 @@ internal static partial class Extensions
 
     [GeneratedRegex("[^a-zA-Z0-9_]")]
     private static partial Regex InvalidIdCharRegex();
+
+    [GeneratedRegex(@"(?<=[a-z\d])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")]
+    private static partial Regex WordBoundaryRegex();
 }
