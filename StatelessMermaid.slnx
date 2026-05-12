@@ -4,6 +4,22 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
+  <Folder Name="/.sln/.github/markdown/">
+    <File Path=".github/markdown/release_create-github-release.md" />
+  </Folder>
+  <Folder Name="/.sln/.github/scripts/">
+    <File Path=".github/scripts/release_build.sh" />
+    <File Path=".github/scripts/release_generate-release-notes.sh" />
+    <File Path=".github/scripts/release_pack.sh" />
+    <File Path=".github/scripts/release_push-to-nuget.sh" />
+    <File Path=".github/scripts/release_restore-dependencies.sh" />
+    <File Path=".github/scripts/release_test.sh" />
+  </Folder>
+  <Folder Name="/.sln/.github/workflows/">
+    <File Path=".github/workflows/main-build.yml" />
+    <File Path=".github/workflows/pr-build.yml" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
   <Project Path="StatelessMermaid.Tests/StatelessMermaid.Tests.csproj" />
   <Project Path="StatelessMermaid/StatelessMermaid.csproj" />
 </Solution>
