@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>StatelessMermaid</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Chase Florell</Authors>
+    <Description>Generates Mermaid state diagrams from Stateless state machines.</Description>
+    <PackageTags>stateless;mermaid;state-machine;diagram</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Stateless" VersionOverride="[5.17.0,)" />
+  </ItemGroup>
+
+</Project>

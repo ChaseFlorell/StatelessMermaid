@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/.sln/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src\Directory.Build.props" />
+    <Project Path="src/StatelessMermaid.Tests/StatelessMermaid.Tests.csproj" />
+    <Project Path="src/StatelessMermaid/StatelessMermaid.csproj" />
+  </Folder>
+</Solution>
