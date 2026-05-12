@@ -76,10 +76,9 @@ jobs:
             const marker = '<!-- ci-test-results -->';
             const body = [
               marker,
-              '| | |',
+              '| Tests | Coverage |',
               '|---|---|',
-              `| **Tests** | ${testStatus} ${passed}/${total} |`,
-              `| **Coverage** | ${coverage}% |`,
+              `| ${testStatus} ${passed}/${total} | ${coverage}% |`,
             ].join('\n');
 
             const { data: comments } = await github.rest.issues.listComments({
