@@ -22,13 +22,28 @@ internal sealed class MermaidDiagramBuilder
 
     private string TriggerLabel(string label)
     {
-        if (!_triggerParameters.TryGetValue(label, out var types) || types.Length == 0)
+        var displayLabel = FormatLabel(label);
+
+        if (_options.TriggerTypeDisplay == TriggerTypeDisplayMode.None
+            || !_triggerParameters.TryGetValue(label, out var types)
+            || types.Length == 0)
         {
-            return label;
+            return displayLabel;
         }
 
-        return $"{label}({string.Join(", ", types.Select(t => t.ToFriendlyName()))})";
+        var typeList = _options.TriggerTypeDisplay switch
+        {
+            TriggerTypeDisplayMode.ClrName => string.Join(", ", types.Select(t => t.Name)),
+            _ => string.Join(", ", types.Select(t => t.ToFriendlyName())),
+        };
+
+        return $"{displayLabel}({typeList})";
     }
+
+    private string FormatLabel(string identifier) =>
+        _options.LabelFormat == LabelFormat.HumanReadable
+            ? identifier.ToHumanReadable()
+            : identifier;
 
     internal string Build(StateMachineInfo info)
     {
@@ -82,7 +97,7 @@ internal sealed class MermaidDiagramBuilder
         foreach (var state in info.States)
         {
             var id = StateId(state);
-            var label = GetDescription(state) ?? state.ToString();
+            var label = GetDescription(state) ?? FormatLabel(state.ToString()!);
             if (label != id)
             {
                 _sb.AppendLine($"\t{id}: {label}");
@@ -224,10 +239,10 @@ internal sealed class MermaidDiagramBuilder
     private List<string> CollectNoteLines(StateInfo state)
     {
         var lines = new List<string>();
-        lines.AddRange(state.EntryActions.Select(a => $"entry / {a.Method.MethodName}"));
-        lines.AddRange(state.ExitActions.Select(a => $"exit / {a.MethodName}"));
-        lines.AddRange(state.ActivateActions.Select(a => $"activate / {a.MethodName}"));
-        lines.AddRange(state.DeactivateActions.Select(a => $"deactivate / {a.MethodName}"));
+        lines.AddRange(state.EntryActions.Select(a => $"entry / {FormatLabel(a.Method.MethodName)}"));
+        lines.AddRange(state.ExitActions.Select(a => $"exit / {FormatLabel(a.MethodName)}"));
+        lines.AddRange(state.ActivateActions.Select(a => $"activate / {FormatLabel(a.MethodName)}"));
+        lines.AddRange(state.DeactivateActions.Select(a => $"deactivate / {FormatLabel(a.MethodName)}"));
         lines.AddRange(state.IgnoredTriggers.Select(t => $"ignore: {TriggerLabel(t.Trigger.ToString()!)}"));
         return lines;
     }

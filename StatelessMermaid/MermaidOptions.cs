@@ -49,4 +49,20 @@ public sealed record MermaidOptions
     /// When <see langword="null"/> or empty, no title block is emitted.
     /// </summary>
     public string? Title { get; init; }
+
+    /// <summary>
+    /// Controls how parameterized trigger type annotations appear on transition labels.
+    /// Defaults to <see cref="TriggerTypeDisplayMode.FriendlyAlias"/>, which renders C# aliases
+    /// such as <c>int</c>, <c>bool</c>, and <c>List&lt;int&gt;</c>.
+    /// </summary>
+    public TriggerTypeDisplayMode TriggerTypeDisplay { get; init; } = TriggerTypeDisplayMode.FriendlyAlias;
+
+    /// <summary>
+    /// Controls how identifier-based labels are formatted: state names, trigger names, and action
+    /// method names shown in notes. Defaults to <see cref="LabelFormat.Raw"/>, which uses identifiers
+    /// exactly as written. Set to <see cref="LabelFormat.HumanReadable"/> to split PascalCase names
+    /// into space-separated words (e.g. <c>OnEnterIdle</c> → <c>On Enter Idle</c>).
+    /// A <c>[Description]</c> attribute on a state always takes precedence over this setting.
+    /// </summary>
+    public LabelFormat LabelFormat { get; init; } = LabelFormat.Raw;
 }
