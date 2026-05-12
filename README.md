@@ -1,5 +1,9 @@
 # StatelessMermaid
 
+[![NuGet](https://img.shields.io/nuget/v/StatelessMermaid.svg)](https://www.nuget.org/packages/StatelessMermaid/)
+[![codecov](https://codecov.io/gh/ChaseFlorell/StatelessMermaid/branch/main/graph/badge.svg)](https://codecov.io/gh/ChaseFlorell/StatelessMermaid)
+[![Build](https://github.com/ChaseFlorell/StatelessMermaid/actions/workflows/main-build.yml/badge.svg)](https://github.com/ChaseFlorell/StatelessMermaid/actions/workflows/main-build.yml)
+
 Generates [Mermaid](https://mermaid.js.org/) state diagrams from [Stateless](https://github.com/dotnet-state-machine/stateless) state machines via a single extension method.
 
 ## Installation
